@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import projet.web.foot.Modele.Team;
@@ -107,7 +108,7 @@ public class TeamRessource {
     @GET
     @Path("/liga/players/{playerName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlayersData(@PathParam("playerName") String playerName) throws JSONException {
+    public Response getPlayersData(@PathParam("playerName") String playerName) throws JSONException, org.codehaus.jettison.json.JSONException {
         String playersJson = externe.getPlayersData(playerName);
         if (playersJson != null && !playersJson.isEmpty()) {
             return Response.ok(playersJson).build();
