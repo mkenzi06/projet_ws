@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk17">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/projet.web.foot"/>
+	<classpathentry kind="lib" path="D:/java-json.jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/jar_files/javax.json-1.0-b02.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/jar_files/javax.json-api-1.0-b02.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/jar_files/unsafe-mock-8.92.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

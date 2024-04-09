@@ -1,6 +1,7 @@
 package projet.web.foot.ressource;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -10,11 +11,13 @@ import org.json.JSONException;
 
 import projet.web.foot.Modele.Team;
 import projet.web.foot.Modele.Player;
+import projet.web.foot.service.PlayerService;
 import projet.web.foot.service.TeamService;
 import projet.web.foot.Modele.*;
 @Path("/teams")
 public class TeamRessource {
 	TeamService service = new TeamService();
+	PlayerService s = new PlayerService(service);
 	ExternalApiCalls externe = new ExternalApiCalls();
     @Context
     UriInfo uriInfo;
@@ -22,8 +25,8 @@ public class TeamRessource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response addTeam(Team team) {
-        Team addedTeam = service.addTeam(team);
+    public Response addTeam(Team team) throws ClassNotFoundException {
+        Team addedTeam = service.addTeamToDatabase(team);
         if (addedTeam == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -32,67 +35,76 @@ public class TeamRessource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/{teamName}")
     @Produces(MediaType.APPLICATION_XML)
-    public Response deleteTeam(@PathParam("id") int id) {
-        if (!service.deleteTeam(id)) {
+    public Response deleteTeamByName(@PathParam("teamName") String teamName) throws ClassNotFoundException {
+        int id =s.getTeamIdByName(teamName); // Recherche de l'ID de l'équipe par son nom
+        if (id == -1) {
+            // Si aucune équipe n'est trouvée avec ce nom, renvoyer un statut 404
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        if (!service.deleteTeamFromDatabase(id)) {
+            // Si la suppression échoue pour une autre raison
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        
+        // Si la suppression réussit
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_XML)
-    public Response getTeam(@PathParam("id") int id) {
-        Team team = service.getTeam(id);
-        if (team == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        Link link = Link.fromUri(uriInfo.getRequestUri()).rel("self").type("application/xml").build();
-        return Response.ok().entity(team).links(link).build();
-    }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public List<Team> getAllTeams() {
-        return service.getAllTeams();
+    public List<Team> getAllTeams() throws ClassNotFoundException {
+        return service.getAllTeamsFromDatabase();
     }
-
     @PUT
-    @Path("/{id}")
+    @Path("/{teamName}")
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response updateTeam(@PathParam("id") int id, Team team) {
-        if (service.updateTeam(id, team)) {
-            return Response.ok().build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
+    public Response updateTeam(@PathParam("teamName") String teamName, Team updatedTeam) throws ClassNotFoundException {
+        // Récupérer l'ID de l'équipe en fonction de son nom
+        int teamId = s.getTeamIdByName(teamName);
 
-    @POST
-    @Path("/{id}/players")
-    @Consumes(MediaType.APPLICATION_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    public Response addPlayerToTeam(@PathParam("id") int id, Player player) {
-        if (service.addPlayerToTeam(id, player)) {
-            URI uri = uriInfo.getAbsolutePathBuilder().path("players").build(); // Construire l'URI pour le joueur ajouté
-            return Response.created(uri).entity(player).build();
+        // 
+
+        // Vérifier si l'équipe existe et si le nouveau coach est valide
+        if (teamId != -1) {
+            // Instancier un objet Team avec le nouveau coach
+//            Team updatedTeam = new Team();
+            
+            // Mettre à jour l'équipe dans la base de données
+            if (service.updateTeamCoachInDatabase(teamId, updatedTeam)) {
+                return Response.ok().build();
+            } else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur lors de la mise à jour de l'équipe").build();
+            }
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity("Équipe ou coach non trouvés").build();
         }
     }
+//    @PUT
+//    @Path("/{id}")
+//    @Consumes(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
+//    public Response updateTeam(@PathParam("id") int id, Team team) throws ClassNotFoundException {
+//        if (service.updateTeamCoachInDatabase(id, team)) {
+//            return Response.ok().build();
+//        } else {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
+//    }
+
 
     @GET
-    @Path("/{id}/players")
-    @Produces(MediaType.APPLICATION_XML)
-    public Response getPlayersOfTeam(@PathParam("id") int id) {
-        List<Player> players = service.getPlayersOfTeam(id);
-        if (players.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok().entity(players).build();
+    @Path("/{team_name}/player")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Player> getPlayersOfTeam(@PathParam("team_name") String team_name) throws ClassNotFoundException {
+        // Renvoyer la réponse avec le contenu XML
+    	int id = s.getTeamIdByName(team_name);
+        return service.getPlayersOfTeam(id);
+    
     }
     @GET
     @Path("/liga")
@@ -106,14 +118,59 @@ public class TeamRessource {
         }
     }
     @GET
-    @Path("/liga/players/{playerName}")
+    @Path("/bundesliga")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlayersData(@PathParam("playerName") String playerName) throws JSONException, org.codehaus.jettison.json.JSONException {
-        String playersJson = externe.getPlayersData(playerName);
-        if (playersJson != null && !playersJson.isEmpty()) {
-            return Response.ok(playersJson).build();
+    public Response getLaLigaBunde() throws JSONException {
+    	String teamsJson = externe.getTeamsBundes();
+        if (teamsJson != null && !teamsJson.isEmpty()) {
+            return Response.ok(teamsJson).build();
         } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les données des joueurs").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les données des équipes de la Liga").build();
         }
     }
+    @GET
+    @Path("/seriea")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getserieaTeams() throws JSONException {
+    	String teamsJson = externe.getTeamsSeria();
+        if (teamsJson != null && !teamsJson.isEmpty()) {
+            return Response.ok(teamsJson).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les données des équipes de la Liga").build();
+        }
+    }
+    @GET
+    @Path("/ligue1")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLaLigueTeams() throws JSONException {
+    	String teamsJson = externe.getTeamsLigue1();
+        if (teamsJson != null && !teamsJson.isEmpty()) {
+            return Response.ok(teamsJson).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les données des équipes de la Liga").build();
+        }
+    }
+    @GET
+    @Path("/premierleague")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPlTeams() throws JSONException {
+    	String teamsJson = externe.getTeamsPL();
+        if (teamsJson != null && !teamsJson.isEmpty()) {
+            return Response.ok(teamsJson).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les données des équipes de la Liga").build();
+        }
+    }
+    @GET
+    @Path("/predictions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPredictionsPL(@QueryParam("from") String fromDate, @QueryParam("to") String toDate) throws JSONException {
+        String predictionsJson = externe.getPredictions(fromDate, toDate);
+        if (predictionsJson != null && !predictionsJson.isEmpty()) {
+            return Response.ok(predictionsJson).build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Impossible de récupérer les prédictions").build();
+        }
+    }
+    
 }

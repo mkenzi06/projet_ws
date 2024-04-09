@@ -2,6 +2,7 @@ package projet.web.foot.Modele;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -9,7 +10,8 @@ public class Team {
 	private int id;
 	private String name;
 	private String league;
-	private ArrayList<Player> players;
+	private String coachName;
+//	private ArrayList<Player> players;
 
 	public int getId() {
 		return id;
@@ -35,12 +37,13 @@ public class Team {
 		this.league = league;
 	}
 
-	public ArrayList<Player> getPlayers() {
-		return players;
+
+	public String getCoachName() {
+		return coachName;
 	}
 
-	public void setPlayers(ArrayList<Player> players) {
-		this.players = players;
+	public void setCoachName(String coachName) {
+		this.coachName = coachName;
 	}
 
 }

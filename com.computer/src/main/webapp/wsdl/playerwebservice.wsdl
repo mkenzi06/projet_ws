@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="PlayerWebServiceService" targetNamespace="http://www.com.computer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.com.computer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.com.computer" schemaLocation="playerwebservice_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="addPlayer">
+    <wsdl:part name="parameters" element="tns:addPlayer">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPlayerResponse">
+    <wsdl:part name="parameters" element="tns:addPlayerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PlayerWebService">
+    <wsdl:operation name="addPlayer">
+      <wsdl:input name="addPlayer" message="tns:addPlayer">
+    </wsdl:input>
+      <wsdl:output name="addPlayerResponse" message="tns:addPlayerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PlayerWebServiceServiceSoapBinding" type="tns:PlayerWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addPlayer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addPlayer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addPlayerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PlayerWebServiceService">
+    <wsdl:port name="PlayerWebServicePort" binding="tns:PlayerWebServiceServiceSoapBinding">
+      <soap:address location="http://localhost:8080/com.computer/services/PlayerWebServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
