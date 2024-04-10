@@ -13,23 +13,27 @@ import antlr.collections.List;
 import projet.web.foot.Modele.DatabaseManager;
 import projet.web.foot.Modele.Player;
 import projet.web.foot.Modele.Team;
-
+/**
+ * Service pour la gestion des joueurs dans la base de données.
+ * Ce service fournit des méthodes pour ajouter, supprimer, mettre à jour et récupérer des joueurs dans la base de données.
+ * Il permet également de récupérer l'équipe d'un joueur et de mettre à jour l'équipe d'un joueur.
+ */
 public class PlayerService {
 
 	java.sql.Statement s;
 	ResultSet r;
-
+	
 	public boolean teamExistsInDatabase(int teamId) throws ClassNotFoundException {
 		DatabaseManager c = new DatabaseManager();
 		try {
-			// Préparation de la requête SQL
+		
 			PreparedStatement statement = c.connectBd().prepareStatement("SELECT * FROM teams WHERE team_id = ?");
 			statement.setInt(1, teamId);
 
-			// Exécution de la requête SQL
+			
 			ResultSet resultSet = statement.executeQuery();
 
-			// Si une ligne est retournée, cela signifie que l'équipe existe
+			
 			return resultSet.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,13 +56,13 @@ public class PlayerService {
 		if (resultSet.next()) {
 			return resultSet.getInt("team_id");
 		}
-		return -1; // Retourner -1 si l'équipe n'est pas trouvée
+		return -1; // Retourner -1 si l'équipe n'existe pas dans la Bd
 	}
 
 	public Player addPlayerToDatabase(Player player) throws ClassNotFoundException {
 		DatabaseManager c = new DatabaseManager();
 		try {
-			// Vérifier si l'équipe existe dans la base de données et récupérer son ID
+			// Vérifier si l'équipe existe dans la bds et récupérer son ID
 			int teamId = getTeamIdFromName(player.getTeamName());
 			if (teamId == -1) {
 				return null; // Équipe non trouvée dans la base de données, retourner null
@@ -84,32 +88,7 @@ public class PlayerService {
 		}
 	}
 
-//    public Player addPlayerToDatabase(Player player) throws ClassNotFoundException {
-//    	DatabaseManager c = new DatabaseManager();
-//        try {
-//            // Vérifie si l'équipe existe dans la base de données
-//            if (!teamExistsInDatabase(player.getEquipe())) {
-//                return null; // Équipe non trouvée dans la base de données, retourner null
-//            }
-//
-//            // Préparation de la requête SQL pour ajouter un joueur
-//            Connection connection = c.connectBd();
-//            PreparedStatement statement = connection.prepareStatement("INSERT INTO players (player_name, team_id, player_poste) VALUES (?, ?, ?)");
-////            statement.setInt(1, player.getId());
-//            statement.setString(1, player.getPrenom());
-//            statement.setInt(2, player.getEquipe());
-//            statement.setString(3, player.getPoste());
-//
-//            // Exécution de la requête SQL
-//            statement.executeUpdate();
-//
-//            // Retourne le joueur lui-même
-//            return player;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+
 	public boolean deletePlayerByName(String playerName) throws ClassNotFoundException {
 		int playerId = getPlayerIdByName(playerName);
 		if (playerId == -1) {
@@ -148,12 +127,9 @@ public class PlayerService {
 
 			// Exécution de la requête SQL
 			int rowsAffected = statement.executeUpdate();
-
-			// Vérifie si une ligne a été affectée (c'est-à-dire si le joueur a été
-			// supprimé)
 			if (rowsAffected > 0) {
-				// Mettre à jour la liste des joueurs de chaque équipe dans TeamService
-//                teamService.updateTeamPlayersAfterPlayerRemoval(id);
+				
+
 				return true; // Joueur supprimé avec succès
 			}
 			return false; // Aucun joueur trouvé avec cet ID
@@ -305,8 +281,7 @@ public class PlayerService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1; // Retourner -1 ou toute autre valeur indicative d'erreur si l'équipe n'est pas
-					// trouvée
+		return -1;
 	}
 
 	public boolean updatePlayerTeamInDatabase(int id, int newTeamId) throws ClassNotFoundException {
@@ -364,10 +339,10 @@ public class PlayerService {
 			// Exécution de la requête SQL
 			ResultSet resultSet = statement.executeQuery();
 
-			// Vérifie si l'équipe du joueur a été trouvée dans la base de données
+			// Vérifie si l'équipe du joueur a été trouvée dans la bd
 			if (resultSet.next()) {
-				// Création d'un objet Team à partir des données récupérées de la base de
-				// données
+				// Création d'un objet Team à partir des données récupérées de la bd
+				
 				Team team = new Team();
 				team.setId(resultSet.getInt("team_id"));
 				team.setName(resultSet.getString("team_name"));

@@ -1,7 +1,10 @@
 package projet.web.foot.Modele;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
+/**
+ * La classe Player représente un joueur de football.
+ * Elle contient des informations telles que l'identifiant du joueur, son prénom, son poste, le nom de son équipe et l'identifiant de son équipe.
+ */
 @XmlRootElement
 public class Player {
 	private int id;

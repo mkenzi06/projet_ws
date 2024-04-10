@@ -25,7 +25,17 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.codehaus.jettison.json.JSONArray;
 import org.json.JSONObject;
-
+/**
+ * Cette classe représente une interface graphique permettant de rechercher et d'afficher les statistiques des joueurs.
+ * Elle herite la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend un champ de recherche pour saisir le nom du joueur et un bouton pour effectuer la recherche.
+ * Les statistiques des joueurs sont récupérées à partir de l'API REST et affichées dans un tableau.
+ * L'utilisateur peut cliquer sur une ligne du tableau pour afficher la photo du joueur correspondant à cette ligne.
+ * La photo du joueur est affichée dans un JLabel à droite du tableau.
+ * Lorsque l'utilisateur clique sur le bouton "Rechercher", une requête est envoyée à l'API pour récupérer les statistiques du joueur spécifié.
+ * Les statistiques sont affichées dans un tableau avec les colonnes suivantes : Nom, Âge, Matchs joués, Buts, Passes, Photo.
+ * En cas d'erreur lors de la récupération des données ou de l'affichage des statistiques, un message d'erreur est affiché.
+ */
 public class StatsPlayerGUI extends JFrame implements ActionListener{
 	private JTable table;
     private JLabel imageLabel;
@@ -33,7 +43,7 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
     public StatsPlayerGUI() {
         setTitle("Statistiques des Joueurs");
         setSize(800, 600);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(this);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 

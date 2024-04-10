@@ -17,7 +17,16 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
-
+/**
+ * Cette classe représente l'interface graphique pour afficher les équipes de football d'une ligue européenne sélectionnée.
+ * Elle herite la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend un menu déroulant pour sélectionner une ligue européenne parmi plusieurs options (Liga, Bundesliga, Ligue1, PremierLeague, SerieA),
+ * ainsi qu'un bouton pour récupérer les équipes de la ligue sélectionnée et les afficher dans un tableau.
+ * Lorsque l'utilisateur clique sur le bouton , une requête est envoyée à l'API pour récupérer les équipes de la ligue sélectionnée (l'api qui recupere les donneee depuis l'api externe).
+ * Les équipes sont affichées dans un tableau avec une colonne pour le nom de l'équipe.
+ * Les données sont récupérées depuis le serveur à l'aide de WebClient et sont traitées sous forme de JSON.
+ * En cas d'erreur lors de la récupération ou du traitement des données JSON, une trace de la pile est affichée.
+ */
 public class ChampionnatEuropeGUI extends JFrame implements ActionListener{
     private JComboBox<String> leagueComboBox;
     private JButton fetchButton;
@@ -29,10 +38,10 @@ public class ChampionnatEuropeGUI extends JFrame implements ActionListener{
     public ChampionnatEuropeGUI() {
         setTitle("Football Teams");
         setSize(600, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(this);
         leagueComboBox = new JComboBox<>(new String[]{"Liga", "Bundesliga", "Ligue1", "PremierLeague", "SerieA"});
-        fetchButton = new JButton("Fetch Teams");
+        fetchButton = new JButton("Afficher les equipes");
         teamTable = new JTable();
         tableModel = new DefaultTableModel();
         teamTable.setModel(tableModel);
@@ -40,7 +49,7 @@ public class ChampionnatEuropeGUI extends JFrame implements ActionListener{
         tableModel.addColumn("Team Name");
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Select League: "));
+        topPanel.add(new JLabel("Choisi un championnat: "));
         topPanel.add(leagueComboBox);
         topPanel.add(fetchButton);
 

@@ -7,7 +7,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
+/**
+ * Cette classe représente le menu principal de l'application Service Web Football.
+ * Elle étend la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * Le menu principal affiche différents boutons pour accéder aux fonctionnalités de l'application.
+ * Chaque bouton est associé à une action spécifique qui ouvre une nouvelle fenêtre pour effectuer cette fonctionnalité.
+ * Les fonctionnalités comprennent l'ajout, la suppression et la mise à jour d'équipes et de joueurs et quelques interactions avec une API externe,
+ * l'affichage des équipes et des joueurs, la visualisation des statistiques des joueurs,
+ * et la visualisation des prédictions des matchs de la Premier League.
+ */
 public class MenuPrincipal extends JFrame implements ActionListener{
 	public MenuPrincipal() {
         setTitle("Menu Principal - Service Web Football");
@@ -52,13 +60,13 @@ public class MenuPrincipal extends JFrame implements ActionListener{
         btnSuppTeam.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SuppTeamGUI().setVisible(true);
+                new SuppTeamGUI();
             }
         });
         btnDeleteplayer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SuppJoueurGUI().setVisible(true);
+                new SuppJoueurGUI();
             }
         });
  

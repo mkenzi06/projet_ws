@@ -17,9 +17,16 @@ import javax.ws.rs.core.GenericType;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 import projet.web.foot.Modele.Team;
-
+/**
+ * Cette classe représente une interface graphique permettant de mettre à jour l'équipe d'un joueur en saisissant son nom.
+ * Elle étend la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend un champ de texte pour saisir le nom du joueur, un menu déroulant pour sélectionner la nouvelle équipe du joueur,
+ * et un bouton pour effectuer la mise à jour.
+ * Lorsque l'utilisateur clique sur le bouton "Mettre à jour", une requête est envoyée à l'API pour mettre à jour l'équipe du joueur.
+ * Si la mise à jour réussit, aucune confirmation n'est affichée, sinon une exception est levée.
+ */
 public class UpdateEquipeJoueur extends JFrame implements ActionListener{
-	 private JTextField playerNameField; // Modification ici
+	 private JTextField playerNameField; 
 	    private JComboBox<String> teamComboBox;
 	    private JButton updateButton;
 	    private static final String BASE_URL = "http://localhost:8080/projet.web.foot/api/teams"; // Remplacez avec votre URL de base
@@ -35,8 +42,8 @@ public class UpdateEquipeJoueur extends JFrame implements ActionListener{
 	    private void createUI() {
 	        setLayout(new FlowLayout());
 
-	        playerNameField = new JTextField(20); // Modification ici
-	        add(new JLabel("Nom du Joueur:")); // Modification ici
+	        playerNameField = new JTextField(20); 
+	        add(new JLabel("Nom du Joueur:")); 
 	        add(playerNameField);
 
 	        teamComboBox = new JComboBox<>();
@@ -58,7 +65,7 @@ public class UpdateEquipeJoueur extends JFrame implements ActionListener{
 	            }
 	        });
 
-	        // Chargement initial des équipes dans le JComboBox
+	        // Chargement initial des équipes dans le JComboBox en faisant appel au serveur
 	       loadTeams();
 	    }
 	    private void loadTeams() {

@@ -21,7 +21,16 @@ import javax.ws.rs.core.GenericType;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 import projet.web.foot.Modele.Team;
-
+/**
+ * Cette classe représente l'interface graphique pour ajouter un joueur dans l'application Foot API Client.
+ * Elle herite la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend des champs de texte pour saisir le nom du joueur, ainsi qu'un menu déroulant pour sélectionner
+ * le poste du joueur et une liste déroulante pour choisir l'équipe (existante dans la bd) et recuperer depuis l'api à laquelle le joueur appartient.
+ * Lorsque l'utilisateur clique sur le bouton "Ajouter", les données saisies sont récupérées,
+ * puis une requête est envoyée à l'API pour ajouter le joueur à l'équipe sélectionnée.
+ * Les équipes sont chargées depuis le serveur au démarrage de l'interface.
+ * Les postes des joueurs sont prédéfinis et affichés dans le menu déroulant.
+ */
 public class AjoutJoueurGUI extends JFrame implements ActionListener {
 	 private JLabel nameLabel, positionLabel, teamLabel;
 	    private JTextField nameField, positionField;
@@ -61,7 +70,7 @@ public class AjoutJoueurGUI extends JFrame implements ActionListener {
 	        addButton.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                FootApiClient.addPlayer(nameField.getText(), positioncbb.getSelectedItem().toString(), teamComboBox.getSelectedItem().toString());
+	                FootApiClient.addPlayer(nameField.getText(), teamComboBox.getSelectedItem().toString(), positioncbb.getSelectedItem().toString());
 	                nameField.setText("");
 	                
 	            }

@@ -1,9 +1,20 @@
 package projet.web.client;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+/**
+ * Cette classe représente l'interface graphique pour ajouter une équipe dans l'application Foot API Client.
+ * Elle herite la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend des champs de texte pour saisir le nom de l'équipe, le nom de l'entraîneur et le nom de la ligue,
+ * ainsi qu'un bouton pour ajouter l'équipe.
+ * Lorsque l'utilisateur clique sur le bouton "Add Team", les données saisies sont récupérées,
+ * puis une requête est envoyée à l'API pour ajouter l'équipe.
+ * Si l'ajout est réussi, un message de succès est affiché avec l'identifiant de l'équipe ajoutée.
+ * Sinon, un message d'erreur est affiché.
+ */
 public class AjoutEquipeGUI extends JFrame implements ActionListener{
 	private JTextField teamNameField;
     private JTextField coachNameField;
@@ -38,6 +49,9 @@ public class AjoutEquipeGUI extends JFrame implements ActionListener{
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addTeam();
+                coachNameField.setText("");
+                teamNameField.setText("");
+                coachNameField.setText("");
             }
         });
         add(addButton);
@@ -47,12 +61,8 @@ public class AjoutEquipeGUI extends JFrame implements ActionListener{
         String coachName = coachNameField.getText();
         String ligue = ligueNameField.getText();
         // Call the API method to add team
-        Integer teamId = FootApiClient.addTeam(teamName, coachName,ligue);
-        if (teamId != null) {
-            JOptionPane.showMessageDialog(this, "Team added successfully with ID: " + teamId, "Success", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to add team.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        FootApiClient.addTeam(teamName, coachName,ligue);
+     
     }
 
 	public static void main(String[] args) {

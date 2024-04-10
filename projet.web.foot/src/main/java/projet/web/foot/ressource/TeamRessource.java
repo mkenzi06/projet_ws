@@ -21,7 +21,17 @@ public class TeamRessource {
 	ExternalApiCalls externe = new ExternalApiCalls();
     @Context
     UriInfo uriInfo;
-    
+    /**
+     * Endpoint pour ajouter une nouvelle équipe.
+     * Prend en charge les requêtes POST avec les données de l'équipe au format XML dans le corps de la requête.
+     * Renvoie une réponse avec un code de statut approprié et les données de l'équipe ajoutée au format XML.
+     *
+     * @param team Les données de la nouvelle équipe.
+     * @return Une réponse HTTP indiquant le résultat de l'opération.
+     *         - Si l'équipe est ajoutée avec succès, renvoie une réponse avec un code de statut 201 Created et les données de l'équipe ajoutée.
+     *         - Si l'ajout de l'équipe échoue, renvoie une réponse avec un code de statut 400 Bad Request.
+     * @throws ClassNotFoundException Si une erreur se produit lors de la gestion de la base de données.
+     */
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
@@ -33,14 +43,24 @@ public class TeamRessource {
         URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(addedTeam.getId())).build();
         return Response.created(uri).entity(addedTeam).build();
     }
-
+    /**
+     * Endpoint pour supprimer une équipe par son nom.
+     * Prend en charge les requêtes DELETE avec le nom de l'équipe dans l'URL.
+     * Renvoie une réponse avec un code de statut approprié indiquant le résultat de l'opération.
+     *
+     * @param teamName Le nom de l'équipe à supprimer.
+     * @return Une réponse HTTP indiquant le résultat de l'opération.
+     *         - Si l'équipe est supprimée avec succès, renvoie une réponse avec un code de statut 200 OK.
+     *         - Si l'équipe n'est pas trouvée, renvoie une réponse avec un code de statut 404 Not Found.
+     * @throws ClassNotFoundException Si une erreur se produit lors de la gestion de la base de données.
+     */
     @DELETE
     @Path("/{teamName}")
     @Produces(MediaType.APPLICATION_XML)
     public Response deleteTeamByName(@PathParam("teamName") String teamName) throws ClassNotFoundException {
         int id =s.getTeamIdByName(teamName); // Recherche de l'ID de l'équipe par son nom
         if (id == -1) {
-            // Si aucune équipe n'est trouvée avec ce nom, renvoyer un statut 404
+            // Si aucune equipe existe avec ce nom renvoyer un statut 404
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -53,12 +73,31 @@ public class TeamRessource {
         return Response.ok().build();
     }
 
-
+    /**
+     * Endpoint pour récupérer toutes les équipes.
+     * Prend en charge les requêtes GET.
+     * Renvoie une liste de toutes les équipes au format XML.
+     *
+     * @return Une liste de toutes les équipes.
+     * @throws ClassNotFoundException Si une erreur se produit lors de la gestion de la base de données.
+     */
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public List<Team> getAllTeams() throws ClassNotFoundException {
         return service.getAllTeamsFromDatabase();
     }
+    /**
+     * Endpoint pour mettre à jour l'entraîneur d'une équipe.
+     * Prend en charge les requêtes PUT avec le nom de l'équipe dans l'URL et les nouvelles données de l'équipe au format XML dans le corps de la requête.
+     * Renvoie une réponse avec un code de statut approprié indiquant le résultat de l'opération.
+     *
+     * @param teamName    Le nom de l'équipe à mettre à jour.
+     * @param updatedTeam Les nouvelles données de l'équipe.
+     * @return Une réponse HTTP indiquant le résultat de l'opération.
+     *         - Si la mise à jour est réussie, renvoie une réponse avec un code de statut 200 OK.
+     *         - Si l'équipe ou le coach n'est pas trouvée, renvoie une réponse avec un code de statut 404 Not Found.
+     * @throws ClassNotFoundException Si une erreur se produit lors de la gestion de la base de données.
+     */
     @PUT
     @Path("/{teamName}")
     @Consumes(MediaType.APPLICATION_XML)
@@ -71,10 +110,7 @@ public class TeamRessource {
 
         // Vérifier si l'équipe existe et si le nouveau coach est valide
         if (teamId != -1) {
-            // Instancier un objet Team avec le nouveau coach
-//            Team updatedTeam = new Team();
-            
-            // Mettre à jour l'équipe dans la base de données
+ 
             if (service.updateTeamCoachInDatabase(teamId, updatedTeam)) {
                 return Response.ok().build();
             } else {
@@ -84,19 +120,15 @@ public class TeamRessource {
             return Response.status(Response.Status.NOT_FOUND).entity("Équipe ou coach non trouvés").build();
         }
     }
-//    @PUT
-//    @Path("/{id}")
-//    @Consumes(MediaType.APPLICATION_XML)
-//    @Produces(MediaType.APPLICATION_XML)
-//    public Response updateTeam(@PathParam("id") int id, Team team) throws ClassNotFoundException {
-//        if (service.updateTeamCoachInDatabase(id, team)) {
-//            return Response.ok().build();
-//        } else {
-//            return Response.status(Response.Status.NOT_FOUND).build();
-//        }
-//    }
-
-
+    /**
+     * Endpoint pour récupérer les joueurs d'une équipe.
+     * Prend en charge les requêtes GET avec le nom de l'équipe dans l'URL.
+     * Renvoie une liste des joueurs de l'équipe au format JSON.
+     *
+     * @param team_name Le nom de l'équipe.
+     * @return Une liste des joueurs de l'équipe au format JSON.
+     * @throws ClassNotFoundException Si une erreur se produit lors de la gestion de la base de données.
+     */
     @GET
     @Path("/{team_name}/player")
     @Produces(MediaType.APPLICATION_JSON)
@@ -106,6 +138,14 @@ public class TeamRessource {
         return service.getPlayersOfTeam(id);
     
     }
+    /**
+     * Endpoint pour récupérer les équipes de la Liga en utilisant l'appel a une API Externe.
+     * Prend en charge les requêtes GET.
+     * Renvoie une liste des équipes de la Liga au format JSON.
+     *
+     * @return Une liste des équipes de la Liga au format JSON.
+     * @throws JSONException Si une erreur se produit lors de la gestion des données JSON.
+     */
     @GET
     @Path("/liga")
     @Produces(MediaType.APPLICATION_JSON)

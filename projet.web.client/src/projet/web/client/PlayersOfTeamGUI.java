@@ -29,7 +29,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import projet.web.foot.Modele.Player;
 import projet.web.foot.Modele.Team;
-
+/**
+ * Cette classe représente l'interface graphique pour afficher les joueurs d'une équipe sélectionnée.
+ * Elle étend la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend un menu déroulant pour sélectionner une équipe parmi celles disponibles,
+ * ainsi qu'un bouton pour afficher les joueurs de l'équipe sélectionnée dans un tableau.
+ * Lorsque l'utilisateur clique sur le bouton "Afficher joueurs", une requête est envoyée à l'API pour récupérer les joueurs de l'équipe sélectionnée.
+ * Les données des joueurs sont récupérées au format JSON et affichées dans un tableau.
+ * En cas d'erreur lors de la récupération des données ou de l'affichage des joueurs, un message d'erreur est affiché.
+ */
 public class PlayersOfTeamGUI extends JFrame implements ActionListener {
 	private JComboBox<String> teamComboBox;
 	private static final String BASE_URL = "http://localhost:8080/projet.web.foot/api/teams";
@@ -39,7 +47,7 @@ public class PlayersOfTeamGUI extends JFrame implements ActionListener {
     public PlayersOfTeamGUI() {
         setTitle("Liste des joueurs par équipe");
         setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();

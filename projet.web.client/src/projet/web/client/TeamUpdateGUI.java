@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -20,28 +21,38 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 import projet.web.foot.Modele.Team;
-
+/**
+ * Cette classe représente une interface graphique permettant de mettre à jour les informations d'une équipe.
+ * Elle étend la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend un champ de sélection pour choisir une équipe, un champ de texte pour saisir le nom du nouveau coach,
+ * et un bouton pour effectuer la mise à jour.
+ * Lorsque l'utilisateur clique sur le bouton "Mettre à jour", une requête est envoyée à l'API pour mettre à jour le coach de l'équipe sélectionnée.
+ * Si la mise à jour réussit, un message de confirmation est affiché. Sinon, un message d'erreur est affiché.
+ */
 public class TeamUpdateGUI extends JFrame implements ActionListener{
 	private JComboBox<String> teamComboBox;
     private JTextField coachNameTextField;
     private JButton updateButton;
+    private JLabel coachname;
 
-    private static final String SERVER_URL = "http://localhost:8080/projet.web.foot/api/teams"; // Mettez votre URL du serveur ici
+    private static final String SERVER_URL = "http://localhost:8080/projet.web.foot/api/teams";
 
     public TeamUpdateGUI() {
         setTitle("Mise à jour d'équipe");
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(this);
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-        contentPane.setLayout(new GridLayout(3, 1));
+        contentPane.setLayout(new GridLayout(4, 1));
 
         teamComboBox = new JComboBox<>();
         coachNameTextField = new JTextField();
         updateButton = new JButton("Mettre à jour");
-
+        coachname = new JLabel("Nom du nouveau coach");
+        
         contentPane.add(teamComboBox);
+        contentPane.add(coachname);
         contentPane.add(coachNameTextField);
         contentPane.add(updateButton);
 

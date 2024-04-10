@@ -21,18 +21,26 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/**
+ * Cette classe représente l'interface graphique permettant de rechercher et afficher les prédictions de matchs de la Premier League.
+ * Elle étend la classe JFrame et implémente l'interface ActionListener pour gérer les événements des boutons.
+ * L'interface comprend des champs de texte pour saisir une plage de dates, ainsi qu'un bouton pour effectuer la recherche et afficher les prédictions de matchs dans un tableau.
+ * Lorsque l'utilisateur clique sur le bouton "Search", une requête est envoyée à l'API pour récupérer les prédictions de matchs pour la plage de dates spécifiée.
+ * Les prédictions sont récupérées au format JSON et affichées dans un tableau avec les informations suivantes : match, probabilité de victoire de l'équipe à domicile, probabilité de match nul, probabilité de victoire de l'équipe à l'extérieur.
+ * En cas d'erreur lors de la récupération des données ou de l'affichage des prédictions, un message d'erreur est affiché.
+ */
 public class PredictionsPlGUI extends JFrame implements ActionListener{
     private JTextField fromDateTextField;
     private JTextField toDateTextField;
     private JTable predictionTable;
     private JButton searchButton;
+    private JLabel j;
 
     public PredictionsPlGUI() {
-        setTitle("Predictions Client");
+        setTitle("Predictions match premier league");
         setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(this);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -43,7 +51,8 @@ public class PredictionsPlGUI extends JFrame implements ActionListener{
         inputPanel.add(new JLabel("To Date:"));
         toDateTextField = new JTextField(10);
         inputPanel.add(toDateTextField);
-
+        j = new JLabel("HW:Home win"+" D:draw"+ " AW:Away win");
+        mainPanel.add(j);
         searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -59,11 +68,11 @@ public class PredictionsPlGUI extends JFrame implements ActionListener{
         inputPanel.add(searchButton);
 
         mainPanel.add(inputPanel);
-
+        
         predictionTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(predictionTable);
         mainPanel.add(scrollPane);
-
+        
         add(mainPanel);
     }
 
@@ -73,6 +82,11 @@ public class PredictionsPlGUI extends JFrame implements ActionListener{
         String toDate = toDateTextField.getText();
         if (fromDate.isEmpty() || toDate.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Veuillez saisir les dates de début et de fin.");
+            return;
+        }
+        String dateRegex = "\\d{4}-\\d{2}-\\d{2}";
+        if (!fromDate.matches(dateRegex) || !toDate.matches(dateRegex)) {
+            JOptionPane.showMessageDialog(this, "Le format des dates doit être yyyy-mm-dd.");
             return;
         }
         if (fromDate.compareTo(toDate) > 0) {
