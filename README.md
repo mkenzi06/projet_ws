@@ -1,7 +1,7 @@
 # Projet_ws Web service Football
 
 ## Membres de l'équipe
-- MEBARKI Mohamed Kenzi (kenzimebarki@gmail.com)
+- MEBARKI Mohamed Kenzi (kenzimebarki2@gmail.com)
 - KHOMSI Soufiane (souffk@icloud.com)
 
 ## Introduction
