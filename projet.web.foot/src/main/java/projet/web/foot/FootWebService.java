@@ -46,18 +46,17 @@ public class FootWebService {
 			if (rs.next()) {
 				int teamId = rs.getInt("team_id");
 
-				// Préparer la requête d'insertion du joueur
 				String insertSql = "INSERT INTO players (player_name, team_id, player_poste) VALUES (?, ?, ?)";
 				stmt = conn.prepareStatement(insertSql);
 
 				stmt.setString(1, player.getPrenom());
-				stmt.setInt(2, teamId); // Utiliser l'ID de l'équipe récupéré
+				stmt.setInt(2, teamId); 
 				stmt.setString(3, player.getPoste());
 
 				int affectedRows = stmt.executeUpdate();
 				return affectedRows > 0 ? "Player ajoute" : "l'ajout du player a echouer";
 			} else {
-				return "Team does not exist";
+				return "equipe non existante ";
 			}
 
 		} catch (SQLException se) {
@@ -69,7 +68,6 @@ public class FootWebService {
 			e.printStackTrace();
 			return "Error: " + e.getMessage();
 		} finally {
-			// Nettoyer l'environnement
 			try {
 				if (rs != null)
 					rs.close();

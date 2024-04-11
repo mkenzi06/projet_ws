@@ -43,6 +43,7 @@ public class SuppJoueurGUI extends JFrame implements ActionListener {
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(!teamIdField.getText().isEmpty()) {
 				String teamId = teamIdField.getText();
 				boolean success = FootApiClient.deletePlayerByName(teamId);
 				if (success) {
@@ -53,6 +54,10 @@ public class SuppJoueurGUI extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(frame, "Erreur lors de la suppression.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					teamIdField.setText("");
+				}
+				}else {
+					JOptionPane.showMessageDialog(frame, "Donnez un nom de joueur", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

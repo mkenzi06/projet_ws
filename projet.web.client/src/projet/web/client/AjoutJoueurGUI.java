@@ -70,9 +70,12 @@ public class AjoutJoueurGUI extends JFrame implements ActionListener {
 	        addButton.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
+	            	if(!nameField.getText().isEmpty()) {
 	                FootApiClient.addPlayer(nameField.getText(), teamComboBox.getSelectedItem().toString(), positioncbb.getSelectedItem().toString());
 	                nameField.setText("");
-	                
+	            	}else {
+	            		JOptionPane.showMessageDialog(null, "Erreur");
+	            	}
 	            }
 	        });
 
@@ -82,7 +85,7 @@ public class AjoutJoueurGUI extends JFrame implements ActionListener {
 	        setLocationRelativeTo(null);
 	        setVisible(true);
 
-	        // Charger les équipes existantes depuis la base de données
+	        // Charger les équipes existantes depuis le serveur
 	        loadTeams();
 	        poste();
 	    }
@@ -94,14 +97,13 @@ public class AjoutJoueurGUI extends JFrame implements ActionListener {
 	        }
 	    }
 	    private List<Team> getAllTeamsFromServer() {
-	        // Utilisation de WebClient ou toute autre méthode appropriée pour appeler le service REST
+	        // Utilisation de WebClient pour appeller les equipes depuis notre service
 	        WebClient client = WebClient.create(BASE_URL);
 	        List<Team> teams = client.get(new GenericType<List<Team>>() {});
 	        return teams;
 	    }
 	    private void poste() {
-	        // Ici vous pouvez implémenter la logique pour récupérer les équipes depuis la base de données
-	        // Pour cet exemple, je vais juste simuler des équipes fictives
+	        
 	        List<String> teams = new ArrayList<>();
 	        teams.add("Attaquant");
 	        teams.add("Milieu");

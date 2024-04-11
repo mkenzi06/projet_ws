@@ -27,6 +27,7 @@ import projet.web.foot.Modele.Team;
  * En cas de succès ou d'échec des opérations, des messages appropriés sont affichés dans la console.
  */
 public class FootApiClient {
+	//definition des url utilisees pour faire des appels a notre serveur (WSDL location pour jax-ws et endpoint url pour jax-rs)
 	 private static final String BASE_URL = "http://localhost:8080/projet.web.foot/api/teams";
 	 private static final String BASE_URL2 = "http://localhost:8080/projet.web.foot/api/players/name";
 	 private static final String BASE_URL1 = "http://localhost:8080/projet.web.foot/api/players";
@@ -37,7 +38,6 @@ public class FootApiClient {
 		    // Créer l'URL du service web en fonction de l'emplacement du WSDL
 			URL wsdlURL = FootWeb.WSDL_LOCATION;
 
-			// Créer le service web et obtenir le port
 			FootWeb service = new FootWeb(wsdlURL, SERVICE_NAME);
 			foot.web.projet.client.FootWebService port = service.getFootService();		
 //			team = null;
@@ -64,7 +64,6 @@ public class FootApiClient {
 			p.setTeamName(teamName);
 			p.setPoste(Poste);;
 
-			// Appeler la méthode addTeam sur le port du service web
 			String result = port.addPlayer(p);
 
 			// Afficher le résultat de l'ajout de l'équipe
@@ -115,20 +114,16 @@ public class FootApiClient {
 	    	return status == 200;
 	    }
 		 public static void deleteTeam(String teamName) {
-			    // Créer l'URL du service web en fonction de l'emplacement du WSDL
 				URL wsdlURL = FootWeb.WSDL_LOCATION;
 
-				// Créer le service web et obtenir le port
 				FootWeb service = new FootWeb(wsdlURL, SERVICE_NAME);
 				foot.web.projet.client.FootWebService port = service.getFootService();		
 
 				team.setName(teamName);
 				
 
-				// Appeler la méthode addTeam sur le port du service web
 				String result = port.deleteTeam(team);
 
-				// Afficher le résultat de l'ajout de l'équipe
 				System.out.println(result);
 				JOptionPane.showMessageDialog(null, result);
 			}

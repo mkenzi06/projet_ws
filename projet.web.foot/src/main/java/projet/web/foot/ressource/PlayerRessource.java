@@ -28,6 +28,7 @@ public class PlayerRessource {
 	ExternalApiCalls externe = new ExternalApiCalls();
 	@Context
 	UriInfo uriInfo;
+	//remarque le post pour le player a seulement ete implementer avant de savoir qu'on devait utilises JAX_WS
 	/**
      * Endpoint pour ajouter un joueur.
      * Prend en charge les requêtes POST avec un contenu XML.

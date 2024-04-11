@@ -63,7 +63,6 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
         imageLabel = new JLabel();
         add(imageLabel, BorderLayout.EAST);
 
-        // Action du bouton de recherche
         searchButton.addActionListener(e -> fetchPlayersData(searchTextField.getText()));
 
         table.addMouseListener(new MouseAdapter() {
@@ -71,7 +70,7 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
             public void mouseClicked(MouseEvent e) {
                 int row = table.rowAtPoint(e.getPoint());
                 if (row >= 0) {
-                    String imageUrl = (String) table.getValueAt(row, 5); // Assurez-vous que l'index de la colonne est correct
+                    String imageUrl = (String) table.getValueAt(row, 5); 
                     setImage(imageUrl);
                 }
             }
@@ -79,15 +78,13 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
     }
     
     private void fetchPlayersData(String playerName) {
-        // Remplacez BASE_URL par votre URL de base réelle
         String baseUrl = "http://localhost:8080/projet.web.foot/api/players/stats";
 
         try {
             // Création du client WebClient
             WebClient client = WebClient.create(baseUrl);
-            client = client.accept(MediaType.APPLICATION_JSON); // Assurez-vous de configurer le type de contenu attendu
+            client = client.accept(MediaType.APPLICATION_JSON); 
             client.path(playerName);
-            // Envoi de la requête GET et récupération de la réponse
             String response = client.get(String.class);
             System.out.println(response);
             // Traitement de la réponse JSON
@@ -99,7 +96,7 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
                 Object playerObject = players.get(i);
                 if (playerObject instanceof org.codehaus.jettison.json.JSONObject) {
                     org.codehaus.jettison.json.JSONObject player = (org.codehaus.jettison.json.JSONObject) playerObject;
-                    // Traitement de l'objet JSON comme avant
+                    // Traitement de l'objet JSON comme dans l'exemple du serveur avec l'api externe
                     data[i][0] = player.getString("Nom");
                     data[i][1] = player.getString("Âge");
                     data[i][2] = player.getString("Nombre de matchs joués");
@@ -133,6 +130,7 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
             e.printStackTrace();
         }
     }
+    //methode pour setIcon sur un jlabel
     private void setImage(String imageUrl) {
         try {
             if (imageUrl != null && !imageUrl.isEmpty()) {
@@ -140,8 +138,7 @@ public class StatsPlayerGUI extends JFrame implements ActionListener{
                 ImageIcon imageIcon = new ImageIcon(ImageIO.read(url));
                 imageLabel.setIcon(imageIcon);
             } else {
-                // Gérer le cas où l'URL de l'image est vide ou null
-                // Peut-être afficher un message d'erreur ou laisser l'imageLabel vide
+            	JOptionPane.showMessageDialog(this, "une erreur avec la photo");
                 System.err.println("L'URL de l'image est vide ou null.");
             }
         } catch (Exception ex) {

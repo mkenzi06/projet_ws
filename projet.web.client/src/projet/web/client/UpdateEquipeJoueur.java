@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.ws.rs.core.GenericType;
@@ -29,14 +30,14 @@ public class UpdateEquipeJoueur extends JFrame implements ActionListener{
 	 private JTextField playerNameField; 
 	    private JComboBox<String> teamComboBox;
 	    private JButton updateButton;
-	    private static final String BASE_URL = "http://localhost:8080/projet.web.foot/api/teams"; // Remplacez avec votre URL de base
+	    private static final String BASE_URL = "http://localhost:8080/projet.web.foot/api/teams"; 
 
 	    public UpdateEquipeJoueur() {
 	        super("Mettre à jour l'équipe du joueur par nom");
 	        createUI();
 	        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	        setSize(400, 200);
-	        setLocationRelativeTo(null); // Centre la fenêtre
+	        setLocationRelativeTo(null); 
 	    }
 
 	    private void createUI() {
@@ -57,15 +58,19 @@ public class UpdateEquipeJoueur extends JFrame implements ActionListener{
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                try {
+	                	if(!playerNameField.getText().isEmpty()) {
 						FootApiClient.updateTeamOfPlayer(playerNameField.getText(), teamComboBox.getSelectedItem().toString());
-					} catch (UnsupportedEncodingException e1) {
+	                	}else {
+	                		JOptionPane.showMessageDialog(null, "Saisir le nom du joueur a modifier", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                	}
+	                	} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 	            }
 	        });
 
-	        // Chargement initial des équipes dans le JComboBox en faisant appel au serveur
+	        
 	       loadTeams();
 	    }
 	    private void loadTeams() {
@@ -75,7 +80,6 @@ public class UpdateEquipeJoueur extends JFrame implements ActionListener{
 	        }
 	    }
 	    private List<Team> getAllTeamsFromServer() {
-	        // Utilisation de WebClient ou toute autre méthode appropriée pour appeler le service REST
 	        WebClient client = WebClient.create(BASE_URL);
 	        List<Team> teams = client.get(new GenericType<List<Team>>() {});
 	        return teams;

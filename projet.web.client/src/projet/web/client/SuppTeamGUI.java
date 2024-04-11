@@ -50,6 +50,7 @@ public class SuppTeamGUI extends JFrame implements ActionListener{
             public void actionPerformed(ActionEvent e) {
             	FootApiClient.deleteTeam(jcbb.getSelectedItem().toString());
             	frame.dispose();
+            	//quand c'etait avec jax-rs seulement
 //                String teamId = teamIdField.getText();
 //                boolean success = FootApiClient.deleteTeamByName(jcbb.getSelectedItem().toString());
 //                if (success) {
@@ -69,7 +70,7 @@ public class SuppTeamGUI extends JFrame implements ActionListener{
         }
     }
     private List<Team> getAllTeamsFromServer() {
-        // Utilisation de WebClient ou toute autre méthode appropriée pour appeler le service REST
+        // Utilisation de WebClient pour recuperer les teams depuis notre serveur (sans passer par la bd directement)
         WebClient client = WebClient.create(SERVER_URL);
         List<Team> teams = client.get(new GenericType<List<Team>>() {});
         return teams;

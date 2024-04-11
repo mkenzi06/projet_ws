@@ -71,10 +71,10 @@ public class ChampionnatEuropeGUI extends JFrame implements ActionListener{
     private void fetchTeams(String selectedLeague) {
         String url = BASE_URL + selectedLeague.toLowerCase();
         
-        // Utilisation de WebClient pour récupérer les données JSON
+        
         String jsonResponse = WebClient.create(url).get(String.class);
         
-        // Effacer les lignes existantes de la table
+        
         tableModel.setRowCount(0);
         
         try {
@@ -88,7 +88,7 @@ public class ChampionnatEuropeGUI extends JFrame implements ActionListener{
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            // Gérer les erreurs de parsing JSON
+            
         }
     }
     public static void main(String[] args) {

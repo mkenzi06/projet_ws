@@ -33,6 +33,6 @@ public class DatabaseManager {
 
     public static void main(String[] args) throws ClassNotFoundException {
         DatabaseManager databaseManager = new DatabaseManager();
-        databaseManager.connectBd(); // juste pour tester si ca marche
+        databaseManager.connectBd(); // juste pour debug et voir si le serveur se connecte a la BD
     }
 }

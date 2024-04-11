@@ -20,7 +20,7 @@ public class TeamService {
     	DatabaseManager c = new DatabaseManager();
         try {
 
-            // Préparation de la requête SQL pour ajouter une equipe
+            // Préparation de la requête sql pour ajouter une equipe
             Connection connection = c.connectBd();
             PreparedStatement statement = connection.prepareStatement("INSERT INTO teams (team_name, coach_name, ligue ) VALUES (?, ?, ?)");
             statement.setString(1, t.getName());
@@ -125,12 +125,12 @@ public class TeamService {
 
             // Vérifier si la maj a bien ete faite
             if (rowsAffected > 0) {
-                return true; // equipe mis à jour avec succès
+                return true;
             }
             return false; 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Une erreur s'est produite lors de la maj
+            return false; 
         }
     }
 
@@ -155,7 +155,6 @@ public class TeamService {
              
          } catch (SQLException e) {
              e.printStackTrace();
-            // Une erreur s'est produite lors de la mise à jour du joueur
          }
          return players;
     }

@@ -35,7 +35,7 @@ public class MenuPrincipal extends JFrame implements ActionListener{
         JButton btnupdateplayer = new JButton("Changer d'equipe a un joueur");
         JButton btnStatPlayer = new JButton("Voir les stats de joueurs(Serveur + API Externe");
         JButton btnPredPlayer = new JButton("Voir les predicitions des matchs de PL");
-        // Ajoutez plus de boutons pour les autres fonctionnalités comme nécessaire
+      
 
         // Ajout des boutons au JFrame
         add(btnAddTeam);
@@ -48,9 +48,9 @@ public class MenuPrincipal extends JFrame implements ActionListener{
         add(btnupdateplayer);
         add(btnStatPlayer);
         add(btnPredPlayer);
-        // Continuez à ajouter les autres boutons
+        
 
-        // Associer les actions aux boutons
+        // Associer les actions aux boutons pour les autres GUI
         btnAddTeam.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class MenuPrincipal extends JFrame implements ActionListener{
             }
         });
 
-        // Répétez pour les autres boutons avec leurs frames respectives
+     
 
     }
 	public static void main(String[] args) {

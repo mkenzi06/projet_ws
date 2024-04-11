@@ -94,7 +94,6 @@ public class PredictionsPlGUI extends JFrame implements ActionListener{
             return;
         }
 
-        // Appel à l'API pour récupérer les prédictions
         WebClient client = WebClient.create("http://localhost:8080/projet.web.foot/api/teams/predictions/");
         client.query("from", fromDate);
         client.query("to", toDate);

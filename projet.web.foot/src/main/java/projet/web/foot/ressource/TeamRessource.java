@@ -21,6 +21,7 @@ public class TeamRessource {
 	ExternalApiCalls externe = new ExternalApiCalls();
     @Context
     UriInfo uriInfo;
+  //remarque le post pour l'equipe a seulement ete implementer avant de savoir qu'on devait utilises JAX_WS
     /**
      * Endpoint pour ajouter une nouvelle équipe.
      * Prend en charge les requêtes POST avec les données de l'équipe au format XML dans le corps de la requête.
@@ -106,9 +107,7 @@ public class TeamRessource {
         // Récupérer l'ID de l'équipe en fonction de son nom
         int teamId = s.getTeamIdByName(teamName);
 
-        // 
-
-        // Vérifier si l'équipe existe et si le nouveau coach est valide
+        
         if (teamId != -1) {
  
             if (service.updateTeamCoachInDatabase(teamId, updatedTeam)) {
@@ -133,7 +132,7 @@ public class TeamRessource {
     @Path("/{team_name}/player")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Player> getPlayersOfTeam(@PathParam("team_name") String team_name) throws ClassNotFoundException {
-        // Renvoyer la réponse avec le contenu XML
+        
     	int id = s.getTeamIdByName(team_name);
         return service.getPlayersOfTeam(id);
     

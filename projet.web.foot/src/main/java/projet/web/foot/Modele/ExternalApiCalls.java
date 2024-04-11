@@ -313,14 +313,14 @@ public class ExternalApiCalls {
 			for (int i = 0; i < playersArray.length(); i++) {
 				org.json.JSONObject playerObject = playersArray.getJSONObject(i);
 				JSONObject playerData = new JSONObject();
-				// Ajouter les données pertinentes du joueur à l'objet JSON
+			
 				playerData.put("Nom", playerObject.getString("player_name"));
 				playerData.put("Âge", playerObject.getString("player_age"));
 				playerData.put("Nombre de matchs joués", playerObject.getString("player_match_played"));
 				playerData.put("Nombre de buts", playerObject.getString("player_goals"));
 				playerData.put("Nombre de passe d", playerObject.getString("player_assists"));
 				playerData.put("Photo", playerObject.getString("player_image"));
-				// Ajouter d'autres données pertinentes au besoin
+			
 				responsePlayers.put(playerData);
 			}
 

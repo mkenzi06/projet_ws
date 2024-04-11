@@ -53,11 +53,9 @@ public class PlayersOfTeamGUI extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        // JComboBox pour les équipes
         teamComboBox = new JComboBox<>();
         panel.add(teamComboBox, BorderLayout.NORTH);
 
-        // JButton pour afficher les joueurs
         showPlayersButton = new JButton("Afficher joueurs");
         panel.add(showPlayersButton, BorderLayout.SOUTH);
 
@@ -68,7 +66,7 @@ public class PlayersOfTeamGUI extends JFrame implements ActionListener {
 
         add(panel);
 
-        // Ajouter un écouteur d'événements au bouton "Afficher joueurs"
+        // Ajouter un action lisetener au bouton "Afficher joueurs"
         showPlayersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +105,7 @@ public class PlayersOfTeamGUI extends JFrame implements ActionListener {
         }
     }
 
-    // Méthode pour récupérer les joueurs d'une équipe depuis l'API
+    // Méthode pour récupérer les joueurs d'une equipe depuis l'API
     private String getPlayersOfTeam(String teamName) {
         String apiUrl = "http://localhost:8080/projet.web.foot/api/teams/" + teamName + "/player"; // Remplacez cette URL par votre URL réelle
         WebClient client = WebClient.create(apiUrl)

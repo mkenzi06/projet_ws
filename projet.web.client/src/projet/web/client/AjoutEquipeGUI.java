@@ -48,10 +48,14 @@ public class AjoutEquipeGUI extends JFrame implements ActionListener{
         addButton = new JButton("Add Team");
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	if(coachNameField.getText().isEmpty()||teamNameField.getText().isEmpty()||ligueNameField.getText().isEmpty()) {
+            		JOptionPane.showMessageDialog(null, "Erreur lors de la saisie des champs");
+            	}else {
                 addTeam();
                 coachNameField.setText("");
                 teamNameField.setText("");
-                coachNameField.setText("");
+                ligueNameField.setText("");
+            	}
             }
         });
         add(addButton);
@@ -60,7 +64,7 @@ public class AjoutEquipeGUI extends JFrame implements ActionListener{
         String teamName = teamNameField.getText();
         String coachName = coachNameField.getText();
         String ligue = ligueNameField.getText();
-        // Call the API method to add team
+
         FootApiClient.addTeam(teamName, coachName,ligue);
      
     }

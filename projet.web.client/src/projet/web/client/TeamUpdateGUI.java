@@ -59,6 +59,7 @@ public class TeamUpdateGUI extends JFrame implements ActionListener{
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
                 String selectedTeamName = (String) teamComboBox.getSelectedItem();
                 String newCoachName = coachNameTextField.getText();
                 
@@ -84,7 +85,7 @@ public class TeamUpdateGUI extends JFrame implements ActionListener{
                         JOptionPane.showMessageDialog(null, "Erreur lors de la communication avec le serveur: " + ex.getMessage());
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner une équipe et saisir le nom du nouveau coach.");
+                    JOptionPane.showMessageDialog(null, "Veuillez sélectionner une équipe et saisir le nom du nouveau coach.","erreur",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -100,7 +101,7 @@ public class TeamUpdateGUI extends JFrame implements ActionListener{
         }
     }
     private List<Team> getAllTeamsFromServer() {
-        // Utilisation de WebClient ou toute autre méthode appropriée pour appeler le service REST
+    	//methode utiliser un peu partout qui recupere les equipes (teams) depuis le serveur on faisant une requete
         WebClient client = WebClient.create(SERVER_URL);
         List<Team> teams = client.get(new GenericType<List<Team>>() {});
         return teams;
