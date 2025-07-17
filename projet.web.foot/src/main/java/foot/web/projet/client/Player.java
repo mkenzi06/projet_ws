@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour player complex type.
  * 
- * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schï¿½ma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="player"&gt;
@@ -44,9 +44,9 @@ public class Player {
     protected String poste;
     protected String prenom;
     protected String teamName;
-
+    protected int age;
     /**
-     * Obtient la valeur de la propriété equipe.
+     * Obtient la valeur de la propriï¿½tï¿½ equipe.
      * 
      */
     public int getEquipe() {
@@ -54,7 +54,7 @@ public class Player {
     }
 
     /**
-     * Définit la valeur de la propriété equipe.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ equipe.
      * 
      */
     public void setEquipe(int value) {
@@ -62,7 +62,7 @@ public class Player {
     }
 
     /**
-     * Obtient la valeur de la propriété id.
+     * Obtient la valeur de la propriï¿½tï¿½ id.
      * 
      */
     public int getId() {
@@ -70,7 +70,7 @@ public class Player {
     }
 
     /**
-     * Définit la valeur de la propriété id.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ id.
      * 
      */
     public void setId(int value) {
@@ -78,7 +78,7 @@ public class Player {
     }
 
     /**
-     * Obtient la valeur de la propriété poste.
+     * Obtient la valeur de la propriï¿½tï¿½ poste.
      * 
      * @return
      *     possible object is
@@ -90,7 +90,7 @@ public class Player {
     }
 
     /**
-     * Définit la valeur de la propriété poste.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ poste.
      * 
      * @param value
      *     allowed object is
@@ -102,7 +102,7 @@ public class Player {
     }
 
     /**
-     * Obtient la valeur de la propriété prenom.
+     * Obtient la valeur de la propriï¿½tï¿½ prenom.
      * 
      * @return
      *     possible object is
@@ -114,7 +114,7 @@ public class Player {
     }
 
     /**
-     * Définit la valeur de la propriété prenom.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ prenom.
      * 
      * @param value
      *     allowed object is
@@ -126,7 +126,7 @@ public class Player {
     }
 
     /**
-     * Obtient la valeur de la propriété teamName.
+     * Obtient la valeur de la propriï¿½tï¿½ teamName.
      * 
      * @return
      *     possible object is
@@ -138,7 +138,7 @@ public class Player {
     }
 
     /**
-     * Définit la valeur de la propriété teamName.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ teamName.
      * 
      * @param value
      *     allowed object is
@@ -148,5 +148,23 @@ public class Player {
     public void setTeamName(String value) {
         this.teamName = value;
     }
+    /**
+     * Obtient la valeur de la propriï¿½tï¿½ age.
+     * 
+     */
+    public int getAge() {
+        return age;
+        }
+    /**
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ age. 
+     * @param value
+     *     allowed object is     
+     * {@link int }
+     */
+    public void setAge(int value) {
+        this.age = value;
+        }
+
+
 
 }
